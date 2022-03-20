@@ -4,7 +4,7 @@ CLASSSOURCESFILE=$DIRBUILD/classSources.txt
 BUILDFILE=$DIRBUILD/build.jar
 
 echo ""
-echo "----> Cleaning previous builds..."
+printf "\033[0;36m0.\033[0m -> Cleaning previous builds...\n"
 find . -type f -name '*.class' -delete
 rm $DIRBUILD -rf | true
 mkdir $DIRBUILD
@@ -13,9 +13,8 @@ mkdir $DIRBUILD
 find -name "*.java" > $JAVASOURCESFILE
 
 echo ""
-echo "----> Compiling .java to .class files..."
+printf "\033[0;36m1.\033[0m -> Compiling .java to .class files...\n"
 javac @$JAVASOURCESFILE
-echo ""
 echo "----> Files compiled to .class:"
 cat $JAVASOURCESFILE
 
@@ -23,20 +22,16 @@ cat $JAVASOURCESFILE
 find -name "*.class" > $CLASSSOURCESFILE
 
 echo ""
-echo "----> Creating .jar from .class files..."
+printf "\033[0;36m2.\033[0m -> Creating .jar from .class files...\n"
 jar cvfm $BUILDFILE MANIFEST.MF @$CLASSSOURCESFILE
-echo ""
 echo "----> Files found:"
 cat $CLASSSOURCESFILE
-
-echo ""
 echo "----> Contents of .jar:"
 jar tf $BUILDFILE
-echo ""
 echo "----> Contents of new manifest:"
 unzip -p $BUILDFILE META-INF/MANIFEST.MF
 
-printf "\033[0;32m----> Running .jar...\033[0m\n"
+printf "\033[0;32m3. -> Running .jar...\033[0m\n"
 java -jar $BUILDFILE
 
 echo ""
